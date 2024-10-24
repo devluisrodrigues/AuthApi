@@ -11,22 +11,22 @@ import jwt
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import hashlib
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
 
 # Database:
-#para teste local localhost, senha admin@2024, host:localhost, porta:5432, database:fastapi
 DATABASE_URL = os.getenv("DATABASE_URL")
+print(f"DATABASE_URL: {os.getenv('DATABASE_URL')}")
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 app = FastAPI()
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = HTTPBearer()
 
 @app.on_event("startup")
 def startup_event():
@@ -136,7 +136,8 @@ def login_user(UserLogin: UserLogin, db: Session = Depends(get_db)):
     return {"jwt": access_token}
     
     
-def JWTBearer(token: str = Depends(oauth2_scheme)):
+def JWTBearer(credentials: HTTPAuthorizationCredentials = Depends(oauth2_scheme)):
+    token = credentials.credentials
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         

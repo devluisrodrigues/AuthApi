@@ -1,18 +1,16 @@
-version: '3.8'
-
 services:
   fastapi:
-    build:
-      context: .
-      dockerfile: app/Dockerfile
+    container_name: fastapi-api
+    image: lasr2/authapi:latest
     ports:
       - "8080:8080"
-    volumes:
-      - .:/app
     depends_on:
       - db
     environment:
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      SECRET_KEY: "${SECRET_KEY:-suaChaveSecreta}"
+    restart: always
+
 
   db:
     image: postgres:17
@@ -21,4 +19,3 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-projeto}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-projeto}
       POSTGRES_DB: ${POSTGRES_DB:-projeto}
-
