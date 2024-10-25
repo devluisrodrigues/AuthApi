@@ -358,7 +358,7 @@
 <p>Link para o Repositório no GitHub: <a href="https://github.com/devluisrodrigues/AuthApi">Repositório</a></p>
 <p>Link para o Docker Hub: <a href="https://hub.docker.com/repository/docker/lasr2/authapi">Docker Hub</a></p>
 <h2 id="descricao-do-projeto"><strong>Descrição do Projeto:</strong></h2>
-<p>O projeto consiste em uma API RESTful desenvolvida em Python com o framework FastAPI. A API possui três endpoints, um para registrar um novo usuário, outro para autenticar um usuário e um terceiro para consultar uma API externa. A API utiliza um banco de dados PostgreSQL para armazenar os usuários cadastrados.</p>
+<p>O projeto consiste em uma API RESTful desenvolvida em Python com o framework FastAPI. A API possui três endpoints, um para registrar um novo usuário, a qual adiciona um novo usuário na base de dados. Outro para autenticar um usuário, no qual checa o email e senha do usuário. E um terceiro para consultar uma API externa. A API utiliza um banco de dados PostgreSQL para armazenar os usuários cadastrados.</p>
 <p>A API realiza uma consulta, protocolo GET, em uma API externa <a href="https://publicapis.io/jokes-api">JokeAPI</a> e retorna uma piada sobre programação, no formato, id: int, Pergunta: str, Resposta: str.</p>
 <p>Exemplo: curl -X GET "https://official-joke-api.appspot.com/jokes/programming/random"</p>
 <pre><code class="language-json">[
