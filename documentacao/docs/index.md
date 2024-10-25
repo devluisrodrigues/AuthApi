@@ -2,7 +2,7 @@
 
 **Autor: Luís Rodrigues**
 
-Link para o Repositório no GitHub: [Repositório](www.github.com/luisrodrigues801)
+Link para o Repositório no GitHub: [Repositório](https://github.com/devluisrodrigues/AuthApi)
 
 Link para o Docker Hub: [Docker Hub](https://hub.docker.com/repository/docker/lasr2/authapi)
 
