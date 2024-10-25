@@ -8,7 +8,7 @@ Link para o Docker Hub: [Docker Hub](https://hub.docker.com/repository/docker/la
 
 ## **Descrição do Projeto:**
 
-O projeto consiste em uma API RESTful desenvolvida em Python com o framework FastAPI. A API possui três endpoints, um para registrar um novo usuário, outro para autenticar um usuário e um terceiro para consultar uma API externa. A API utiliza um banco de dados PostgreSQL para armazenar os usuários cadastrados.
+O projeto consiste em uma API RESTful desenvolvida em Python com o framework FastAPI. A API possui três endpoints, um para registrar um novo usuário, a qual adiciona um novo usuário na base de dados. Outro para autenticar um usuário, no qual checa o email e senha do usuário. E um terceiro para consultar uma API externa. A API utiliza um banco de dados PostgreSQL para armazenar os usuários cadastrados.
 
 A API realiza uma consulta, protocolo GET, em uma API externa [JokeAPI](https://publicapis.io/jokes-api) e retorna uma piada sobre programação, no formato, id: int, Pergunta: str, Resposta: str.
 
