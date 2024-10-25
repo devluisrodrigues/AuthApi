@@ -62,7 +62,7 @@ services:
 - Crie o arquivo `.env` com o seguinte conteúdo, altere as variáveis de acordo com o seu ambiente:
 
 ```env
-SECRET_KEY = "chave_secreta_muito_forte"
+SECRET_KEY ="chave_secreta_muito_forte"
 POSTGRES_DB=postgres
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=admin
