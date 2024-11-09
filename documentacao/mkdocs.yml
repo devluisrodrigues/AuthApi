@@ -1,3 +1,6 @@
-site_name: My Docs
+site_name: "Projeto Cloud - Documentação"
+nav:
+  - Criando a imagem: index.md
+  - Subindo na AWS: aws.md
 theme:
   name: material
