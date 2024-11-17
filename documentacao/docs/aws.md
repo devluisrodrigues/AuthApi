@@ -225,6 +225,8 @@ Os endpoints da API são os mesmos da aplicação rodando localmente. E podem se
 
 ### Referências:
 
+- [Como criar um cluster EKS na AWS](https://eksctl.io/usage/creating-and-managing-clusters/)
+
 - [Documentação do EKS](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html)
 
 - [Como criar cluster Kubernetes EKS na AWS com EKSCTL](https://sidneiweber.com.br/como-criar-cluster-kubernetes-eks-na-aws-com-eksctl/ )
