@@ -383,15 +383,37 @@
 <p>Crie um diretório para organizar os arquivos do projeto, por exemplo: <code>mkdir projeto-cloud</code>. E acesse o diretório criado: <code>cd projeto-cloud</code></p>
 </li>
 <li>
-<p>Crie o cluster EKS com o comando:</p>
+<p>Crie um arquivo chamado <code>cluster-config.yaml</code> com o seguinte conteúdo:</p>
 </li>
+</ul>
+<pre><code class="language-yaml">apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: projeto-cluster-diferenciado
+  region: us-east-2
+
+nodeGroups:
+  - name: fastapi-nodes
+    instanceType: t3.medium
+    desiredCapacity: 1
+    minSize: 1
+    maxSize: 4
+  - name: postgres-nodes
+    instanceType: t3.medium
+    desiredCapacity: 1
+    minSize: 1
+    maxSize: 3
+</code></pre>
+<ul>
+<li>Crie o cluster EKS com o comando:</li>
 </ul>
 <blockquote>
 <p><strong>Nota:</strong> Por experiência própria, verifique os preços de cada região antes de criar o cluster, https://cloudprice.net/aws/regions. Nota do aluno que subiu o cluster em São Paulo (sa-east-1) e está refazendo o projeto para Ohio (us-east-2), pois ficou assustado com o preço.</p>
 </blockquote>
-<pre><code class="language-bash">eksctl create cluster --name projeto-cluster --region us-east-2 --nodes 2
+<pre><code class="language-bash">eksctl create cluster -f cluster-config.yaml
 </code></pre>
-<p>O comando acima cria um cluster EKS com o nome <code>projeto-cluster</code> na região <code>us-east-2</code> com 2 nodes com tamanho default m5.large com uma VPC e subnets default. Os nodes são instâncias EC2, que irão executar os containers da aplicação.</p>
+<p>O comando acima cria um cluster EKS com o nome <code>projeto-cluster</code> na região <code>us-east-2</code> com 2 nodes com tamanho default t3.medium com uma VPC e subnets default. Os nodes são instâncias EC2, que irão executar os containers da aplicação.</p>
 <blockquote>
 <p><strong>Nota:</strong> O EKS apresenta uma vantagem de escalabilidade, ou seja, é possível aumentar ou diminuir a quantidade de nodes conforme a necessidade, evitando gargalos na aplicação.</p>
 </blockquote>
@@ -516,7 +538,7 @@ postgres-xxxxxxxxx-xxxxx   1/1     Running   0          2m58s
 </code></pre>
 <p>Caso tudo tenha funcionado, a resposta será:</p>
 <pre><code class="language-bash">NAME              TYPE           CLUSTER-IP       EXTERNAL-IP                                                              PORT(S)        AGE
-fastapi-service   LoadBalancer   10.100.xxx.xxx   ab757c16c8f5b4ffdae63bd6ff19a8a6-759760828.us-east-2.elb.amazonaws.com   80:30309/TCP   2m27s
+fastapi-service   LoadBalancer   10.100.xxx.xxx   a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com   80:30309/TCP   2m27s
 kubernetes        ClusterIP      10.100.xxx.xxx   &lt;none&gt;                                                                   443/TCP        23m
 postgres          ClusterIP      10.100.xxx.xxx   &lt;none&gt;                                                                   5432/TCP       5m9s
 </code></pre>
@@ -524,24 +546,24 @@ postgres          ClusterIP      10.100.xxx.xxx   &lt;none&gt;                  
 <h3 id="endpoints-da-api"><strong>Endpoints da API:</strong></h3>
 <ul>
 <li>É possível conferir o swagger da API acessando o endereço 
-<code>http://ab757c16c8f5b4ffdae63bd6ff19a8a6-759760828.us-east-2.elb.amazonaws.com/docs</code> ou clickando em <a href="http://ab757c16c8f5b4ffdae63bd6ff19a8a6-759760828.us-east-2.elb.amazonaws.com/docs">swagger</a>.</li>
+<code>http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/docs</code> ou clickando em <a href="http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/docs">swagger</a>.</li>
 </ul>
 <p>Os endpoints da API são os mesmos da aplicação rodando localmente. E podem ser utilizados através dos links:</p>
 <ul>
 <li><strong>Post /registrar</strong> : </li>
 </ul>
-<p><code>http://ab757c16c8f5b4ffdae63bd6ff19a8a6-759760828.us-east-2.elb.amazonaws.com/registrar</code></p>
-<p><a href="http://ab757c16c8f5b4ffdae63bd6ff19a8a6-759760828.us-east-2.elb.amazonaws.com/registrar">Atalho para o link de registrar</a></p>
+<p><code>http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/registrar</code></p>
+<p><a href="http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/registrar">Atalho para o link de registrar</a></p>
 <ul>
 <li><strong>Post /login</strong> : </li>
 </ul>
-<p><code>http://ab757c16c8f5b4ffdae63bd6ff19a8a6-759760828.us-east-2.elb.amazonaws.com/login</code></p>
-<p><a href="http://ab757c16c8f5b4ffdae63bd6ff19a8a6-759760828.us-east-2.elb.amazonaws.com/login">Atalho para o link de login</a></p>
+<p><code>http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/login</code></p>
+<p><a href="http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/login">Atalho para o link de login</a></p>
 <ul>
 <li><strong>Get /consultar</strong> : </li>
 </ul>
-<p><code>http://ab757c16c8f5b4ffdae63bd6ff19a8a6-759760828.us-east-2.elb.amazonaws.com/consultar</code></p>
-<p><a href="http://ab757c16c8f5b4ffdae63bd6ff19a8a6-759760828.us-east-2.elb.amazonaws.com/consultar">Atalho para o link de consultar</a></p>
+<p><code>http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/consultar</code></p>
+<p><a href="http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/consultar">Atalho para o link de consultar</a></p>
 <h3 id="referencias">Referências:</h3>
 <ul>
 <li>
