@@ -255,6 +255,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#links" class="md-nav__link">
+    <span class="md-ellipsis">
+      Links:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#configuracao-do-ambiente" class="md-nav__link">
     <span class="md-ellipsis">
       Configuração do ambiente:
@@ -325,6 +334,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#links" class="md-nav__link">
+    <span class="md-ellipsis">
+      Links:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#configuracao-do-ambiente" class="md-nav__link">
     <span class="md-ellipsis">
       Configuração do ambiente:
@@ -376,7 +394,10 @@
 
 
 <h1 id="subindo-a-aplicacao-no-aws-elastic-kubernetes-service-eks">Subindo a aplicação no AWS Elastic Kubernetes Service (EKS)</h1>
-<p>Para subir a aplicação no AWS EKS, é necessário ter uma conta na AWS e ter o <code>aws-cli</code> instalado e configurado.</p>
+<h3 id="links"><strong>Links:</strong></h3>
+<p>Link do vídeo no Youtube: <a href="https://youtu.be/kkBhnfz0y-I">Vídeo de documentação do deploy na AWS</a></p>
+<p>Link para o Repositório no GitHub: <a href="https://github.com/devluisrodrigues/AuthApi">Repositório</a></p>
+<p>Para subir a aplicação no AWS EKS através do método abaixo, é necessário ter uma conta na AWS e ter o <code>aws-cli</code> instalado e configurado.</p>
 <h3 id="configuracao-do-ambiente"><strong>Configuração do ambiente:</strong></h3>
 <ul>
 <li>
@@ -541,7 +562,7 @@ postgres          ClusterIP      10.100.xxx.xxx   &lt;none&gt;                  
   -H 'Content-Type: application/json' \
   -d '{
     &quot;email&quot;: &quot;luis@teste.com&quot;,
-    &quot;nome&quot;: &quot;luis testen&quot;,
+    &quot;nome&quot;: &quot;luis teste&quot;,
     &quot;senha&quot;: &quot;123&quot;
   }'
 </code></pre>
@@ -554,8 +575,8 @@ postgres          ClusterIP      10.100.xxx.xxx   &lt;none&gt;                  
 <pre><code class="language-bash">curl -X POST http://a94c4a09f48814d65bb093ad15476d61-563405062.us-east-2.elb.amazonaws.com/login \
   -H &quot;Content-Type: application/json&quot; \
   -d '{
-    &quot;email&quot;: &quot;hwatermann@moedinha.ia&quot;,
-    &quot;senha&quot;: &quot;123456&quot;
+    &quot;email&quot;: &quot;luis@teste.com&quot;,
+    &quot;senha&quot;: &quot;123&quot;
   }'
 </code></pre>
 <ul>
