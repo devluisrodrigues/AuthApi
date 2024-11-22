@@ -383,45 +383,25 @@
 <p>Crie um diretório para organizar os arquivos do projeto, por exemplo: <code>mkdir projeto-cloud</code>. E acesse o diretório criado: <code>cd projeto-cloud</code></p>
 </li>
 <li>
-<p>Crie um arquivo chamado <code>cluster-config.yaml</code> com o seguinte conteúdo:</p>
+<p>Crie o cluster EKS com o comando:</p>
 </li>
 </ul>
-<pre><code class="language-yaml">apiVersion: eksctl.io/v1alpha5
-kind: ClusterConfig
-
-metadata:
-  name: projeto-cluster-diferenciado
-  region: us-east-2
-
-nodeGroups:
-  - name: fastapi-nodes
-    instanceType: t3.medium
-    desiredCapacity: 1
-    minSize: 1
-    maxSize: 4
-  - name: postgres-nodes
-    instanceType: t3.medium
-    desiredCapacity: 1
-    minSize: 1
-    maxSize: 3
+<pre><code class="language-bash">eksctl create cluster --name projeto-cluster-fastapi --region us-east-2 --nodes 2 --node-type t3.small
 </code></pre>
-<ul>
-<li>Crie o cluster EKS com o comando:</li>
-</ul>
 <blockquote>
 <p><strong>Nota:</strong> Por experiência própria, verifique os preços de cada região antes de criar o cluster, https://cloudprice.net/aws/regions. Nota do aluno que subiu o cluster em São Paulo (sa-east-1) e está refazendo o projeto para Ohio (us-east-2), pois ficou assustado com o preço.</p>
 </blockquote>
-<pre><code class="language-bash">eksctl create cluster -f cluster-config.yaml
-</code></pre>
-<p>O comando acima cria um cluster EKS com o nome <code>projeto-cluster</code> na região <code>us-east-2</code> com 2 nodes com tamanho default t3.medium com uma VPC e subnets default. Os nodes são instâncias EC2, que irão executar os containers da aplicação.</p>
+<p>O comando acima cria um cluster EKS com o nome <code>projeto-cluster-fastapi</code> na região <code>us-east-2</code> com 2 nodes com tamanho t3.small com uma VPC e subnets default.</p>
+<p>Os nodes são instâncias EC2, que irão executar os containers da aplicação.</p>
 <blockquote>
+<p><strong>Nota:</strong> Foram utilizadas máquinas t3.small por questões de custo e desempenho, para o projeto em questão, essas máquinas são suficientes. Porém, é possível utilizar máquinas com mais recursos.</p>
 <p><strong>Nota:</strong> O EKS apresenta uma vantagem de escalabilidade, ou seja, é possível aumentar ou diminuir a quantidade de nodes conforme a necessidade, evitando gargalos na aplicação.</p>
 </blockquote>
 <p>Espere a criação do cluster, pode demorar alguns minutos.</p>
-<p>Após criar o cluster, execute o comando abaixo para configurar o <code>kubectl</code> para acessar o cluster:</p>
-<pre><code class="language-bash">aws eks --region us-east-2 update-kubeconfig --name projeto-cluster
+<p>Após criar o cluster, execute o comando abaixo para configurar o <code>kubectl</code> para configurar o acesso ao cluster pelo CLI:</p>
+<pre><code class="language-bash">aws eks --region us-east-2 update-kubeconfig --name projeto-cluster-fastapi
 </code></pre>
-<p>Agora o <code>kubectl</code> está configurado para acessar o cluster <code>projeto-cluster</code>. Assim, você pode analisar o que está acontecendo no cluster, como os nodes, pods, deployments, etc, pelo terminal.</p>
+<p>Agora o <code>kubectl</code> está configurado para acessar o cluster <code>projeto-cluster-fastapi</code>. Assim, você pode analisar o que está acontecendo no cluster, como os nodes, pods, deployments, etc, pelo terminal.</p>
 <p>Por exemplo, para listar os nodes do cluster, execute o comando:</p>
 <pre><code class="language-bash">kubectl get nodes
 </code></pre>
@@ -546,24 +526,50 @@ postgres          ClusterIP      10.100.xxx.xxx   &lt;none&gt;                  
 <h3 id="endpoints-da-api"><strong>Endpoints da API:</strong></h3>
 <ul>
 <li>É possível conferir o swagger da API acessando o endereço 
-<code>http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/docs</code> ou clickando em <a href="http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/docs">swagger</a>.</li>
+<code>http://a94c4a09f48814d65bb093ad15476d61-563405062.us-east-2.elb.amazonaws.com/docs</code> ou clickando em <a href="http://a94c4a09f48814d65bb093ad15476d61-563405062.us-east-2.elb.amazonaws.com/docs">swagger</a></li>
 </ul>
 <p>Os endpoints da API são os mesmos da aplicação rodando localmente. E podem ser utilizados através dos links:</p>
 <ul>
 <li><strong>Post /registrar</strong> : </li>
 </ul>
-<p><code>http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/registrar</code></p>
-<p><a href="http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/registrar">Atalho para o link de registrar</a></p>
+<p><code>http://a94c4a09f48814d65bb093ad15476d61-563405062.us-east-2.elb.amazonaws.com/registrar</code></p>
+<!-- Curl Exemplo -->
+
+<pre><code class="language-bash">curl -X 'POST' \
+  'http://a94c4a09f48814d65bb093ad15476d61-563405062.us-east-2.elb.amazonaws.com/registrar' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    &quot;email&quot;: &quot;luis@teste.com&quot;,
+    &quot;nome&quot;: &quot;luis testen&quot;,
+    &quot;senha&quot;: &quot;123&quot;
+  }'
+</code></pre>
 <ul>
 <li><strong>Post /login</strong> : </li>
 </ul>
-<p><code>http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/login</code></p>
-<p><a href="http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/login">Atalho para o link de login</a></p>
+<p><code>http://a94c4a09f48814d65bb093ad15476d61-563405062.us-east-2.elb.amazonaws.com/login</code></p>
+<!-- Curl Exemplo -->
+
+<pre><code class="language-bash">curl -X POST http://a94c4a09f48814d65bb093ad15476d61-563405062.us-east-2.elb.amazonaws.com/login \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{
+    &quot;email&quot;: &quot;hwatermann@moedinha.ia&quot;,
+    &quot;senha&quot;: &quot;123456&quot;
+  }'
+</code></pre>
 <ul>
 <li><strong>Get /consultar</strong> : </li>
 </ul>
-<p><code>http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/consultar</code></p>
-<p><a href="http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/consultar">Atalho para o link de consultar</a></p>
+<p><code>http://a94c4a09f48814d65bb093ad15476d61-563405062.us-east-2.elb.amazonaws.com/consultar</code></p>
+<!-- Curl Exemplo -->
+
+<pre><code class="language-bash">curl -X GET http://a94c4a09f48814d65bb093ad15476d61-563405062.us-east-2.elb.amazonaws.com/consultar \
+  -H &quot;Authorization: Bearer SEU_TOKEN_JWT&quot;
+</code></pre>
+<blockquote>
+<p><strong>Nota:</strong> Para obter o token JWT, é necessário se registrar e/ou logar na aplicação. O token JWT é retornado no corpo da resposta e tem duração de 10 minutos.</p>
+</blockquote>
 <h3 id="referencias">Referências:</h3>
 <ul>
 <li>
