@@ -6,50 +6,30 @@ Para subir a aplicação no AWS EKS, é necessário ter uma conta na AWS e ter o
 
 - Crie um diretório para organizar os arquivos do projeto, por exemplo: `mkdir projeto-cloud`. E acesse o diretório criado: `cd projeto-cloud`
 
-- Crie um arquivo chamado `cluster-config.yaml` com o seguinte conteúdo:
-
-```yaml
-apiVersion: eksctl.io/v1alpha5
-kind: ClusterConfig
-
-metadata:
-  name: projeto-cluster-diferenciado
-  region: us-east-2
-
-nodeGroups:
-  - name: fastapi-nodes
-    instanceType: t3.medium
-    desiredCapacity: 1
-    minSize: 1
-    maxSize: 4
-  - name: postgres-nodes
-    instanceType: t3.medium
-    desiredCapacity: 1
-    minSize: 1
-    maxSize: 3
-```
-
 - Crie o cluster EKS com o comando:
 
+```bash
+eksctl create cluster --name projeto-cluster-fastapi --region us-east-2 --nodes 2 --node-type t3.small
+```
 > **Nota:** Por experiência própria, verifique os preços de cada região antes de criar o cluster, https://cloudprice.net/aws/regions. Nota do aluno que subiu o cluster em São Paulo (sa-east-1) e está refazendo o projeto para Ohio (us-east-2), pois ficou assustado com o preço.
 
-```bash
-eksctl create cluster -f cluster-config.yaml
-```
+O comando acima cria um cluster EKS com o nome `projeto-cluster-fastapi` na região `us-east-2` com 2 nodes com tamanho t3.small com uma VPC e subnets default.
 
-O comando acima cria um cluster EKS com o nome `projeto-cluster` na região `us-east-2` com 2 nodes com tamanho default t3.medium com uma VPC e subnets default. Os nodes são instâncias EC2, que irão executar os containers da aplicação.
+Os nodes são instâncias EC2, que irão executar os containers da aplicação.
+
+> **Nota:** Foram utilizadas máquinas t3.small por questões de custo e desempenho, para o projeto em questão, essas máquinas são suficientes. Porém, é possível utilizar máquinas com mais recursos.
 
 > **Nota:** O EKS apresenta uma vantagem de escalabilidade, ou seja, é possível aumentar ou diminuir a quantidade de nodes conforme a necessidade, evitando gargalos na aplicação.
 
 Espere a criação do cluster, pode demorar alguns minutos.
 
-Após criar o cluster, execute o comando abaixo para configurar o `kubectl` para acessar o cluster:
+Após criar o cluster, execute o comando abaixo para configurar o `kubectl` para configurar o acesso ao cluster pelo CLI:
 
 ```bash
-aws eks --region us-east-2 update-kubeconfig --name projeto-cluster
+aws eks --region us-east-2 update-kubeconfig --name projeto-cluster-fastapi
 ```
 
-Agora o `kubectl` está configurado para acessar o cluster `projeto-cluster`. Assim, você pode analisar o que está acontecendo no cluster, como os nodes, pods, deployments, etc, pelo terminal.
+Agora o `kubectl` está configurado para acessar o cluster `projeto-cluster-fastapi`. Assim, você pode analisar o que está acontecendo no cluster, como os nodes, pods, deployments, etc, pelo terminal.
 
 Por exemplo, para listar os nodes do cluster, execute o comando:
 
@@ -201,27 +181,52 @@ Use o endereço `EXTERNAL-IP` para acessar a aplicação.
 ### **Endpoints da API:**
 
 - É possível conferir o swagger da API acessando o endereço 
-`http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/docs` ou clickando em [swagger](http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/docs).
+`http://a94c4a09f48814d65bb093ad15476d61-563405062.us-east-2.elb.amazonaws.com/docs` ou clickando em [swagger](http://a94c4a09f48814d65bb093ad15476d61-563405062.us-east-2.elb.amazonaws.com/docs)
 
 Os endpoints da API são os mesmos da aplicação rodando localmente. E podem ser utilizados através dos links:
 
 - **Post /registrar** : 
 
- `http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/registrar`
+ `http://a94c4a09f48814d65bb093ad15476d61-563405062.us-east-2.elb.amazonaws.com/registrar`
 
-  [Atalho para o link de registrar](http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/registrar)
+ <!-- Curl Exemplo -->
+```bash
+curl -X 'POST' \
+  'http://a94c4a09f48814d65bb093ad15476d61-563405062.us-east-2.elb.amazonaws.com/registrar' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "email": "luis@teste.com",
+    "nome": "luis testen",
+    "senha": "123"
+  }'
+```
 
 - **Post /login** : 
 
-`http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/login`
+`http://a94c4a09f48814d65bb093ad15476d61-563405062.us-east-2.elb.amazonaws.com/login`
 
-[Atalho para o link de login](http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/login)
+<!-- Curl Exemplo -->
+```bash
+curl -X POST http://a94c4a09f48814d65bb093ad15476d61-563405062.us-east-2.elb.amazonaws.com/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "hwatermann@moedinha.ia",
+    "senha": "123456"
+  }'
+```
 
 - **Get /consultar** : 
 
- `http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/consultar`
+ `http://a94c4a09f48814d65bb093ad15476d61-563405062.us-east-2.elb.amazonaws.com/consultar`
 
-[Atalho para o link de consultar](http://a7fa69d196c014e0390429e20fdb0087-758149223.us-east-2.elb.amazonaws.com/consultar)
+<!-- Curl Exemplo -->
+```bash
+curl -X GET http://a94c4a09f48814d65bb093ad15476d61-563405062.us-east-2.elb.amazonaws.com/consultar \
+  -H "Authorization: Bearer SEU_TOKEN_JWT"
+```
+
+> **Nota:** Para obter o token JWT, é necessário se registrar e/ou logar na aplicação. O token JWT é retornado no corpo da resposta e tem duração de 10 minutos.
 
 ### Referências:
 
