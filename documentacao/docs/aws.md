@@ -1,12 +1,13 @@
-# Deploy da aplicação no AWS Elastic Kubernetes Service (EKS)
-
-<!-- Video de documentação da entrega do projeto -->
-
-**Link do vídeo no Youtube**: https://youtu.be/kkBhnfz0y-I
-
 # Subindo a aplicação no AWS Elastic Kubernetes Service (EKS)
 
-Para subir a aplicação no AWS EKS, é necessário ter uma conta na AWS e ter o `aws-cli` instalado e configurado.
+### **Links:**
+
+Link do vídeo no Youtube: [Vídeo de documentação do deploy na AWS](https://youtu.be/kkBhnfz0y-I)
+
+Link para o Repositório no GitHub: [Repositório](https://github.com/devluisrodrigues/AuthApi)
+
+
+Para subir a aplicação no AWS EKS através do método abaixo, é necessário ter uma conta na AWS e ter o `aws-cli` instalado e configurado.
 
 ### **Configuração do ambiente:**
 
