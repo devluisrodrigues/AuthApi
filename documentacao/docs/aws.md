@@ -1,3 +1,9 @@
+# Deploy da aplicação no AWS Elastic Kubernetes Service (EKS)
+
+<!-- Video de documentação da entrega do projeto -->
+
+**Link do vídeo no Youtube**: https://youtu.be/kkBhnfz0y-I
+
 # Subindo a aplicação no AWS Elastic Kubernetes Service (EKS)
 
 Para subir a aplicação no AWS EKS, é necessário ter uma conta na AWS e ter o `aws-cli` instalado e configurado.
@@ -197,7 +203,7 @@ curl -X 'POST' \
   -H 'Content-Type: application/json' \
   -d '{
     "email": "luis@teste.com",
-    "nome": "luis testen",
+    "nome": "luis teste",
     "senha": "123"
   }'
 ```
@@ -211,8 +217,8 @@ curl -X 'POST' \
 curl -X POST http://a94c4a09f48814d65bb093ad15476d61-563405062.us-east-2.elb.amazonaws.com/login \
   -H "Content-Type: application/json" \
   -d '{
-    "email": "hwatermann@moedinha.ia",
-    "senha": "123456"
+    "email": "luis@teste.com",
+    "senha": "123"
   }'
 ```
 
